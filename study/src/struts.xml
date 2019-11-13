@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 以下这段照搬，切记！ -->
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!--设置字符编码为UTF-8 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!--设置资源文件的文件头的名称 -->
+	<constant name="struts.custom.i18n.resources" value="message" />
+	<!-- 最大上传文件大小 -->
+	<constant name="struts.multipart.maxSize" value="30720000" />
+	<!-- 设置上传文件配置 -->
+	<constant name="struts.multipart.saveDir" value="location of your choice" />
+	<!-- 设置struts的命名控件，并继承struts-default -->
+	<package name="WebContent" namespace="/" extends="json-default">
+	
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.ssh.interceptor.LoginInterceptot"></interceptor>
+		</interceptors>
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+		<!-- 配置action的路径（class），页面提交方法（name),对应执行方法（method） -->
+		<!--如果不写method，则默认执行execute方法 -->
+
+		<action name="studentLogin" class="studentAction" method="studentLogin">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="chain">queryStuIndex</result>
+		</action>
+		<action name="studentEdit" class="studentAction" method="studentEdit">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="queryAllStudent" class="studentAction" method="queryAllStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentList.jsp</result>
+		</action>
+		<action name="queryStudentByAdmi" class="studentAction" method="queryStudentByAdmi">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentList.jsp</result>
+		</action>
+		<action name="insertStudent" class="studentAction" method="insertStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllStudent</result>
+		</action>
+		<action name="updateStudent" class="studentAction" method="updateStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllStudent</result>
+		</action>
+		<action name="updateStudentDetail" class="studentAction" method="updateStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success"  type="redirectAction">queryStudentBySinger</result>
+		</action>
+		<action name="updateStudentPassword" class="studentAction" method="updateStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="alertStudentHeadImg" class="studentAction" method="alertStudentImg">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryStudentBySinger</result>
+		</action>
+		<action name="alertStudentImg" class="studentAction" method="alertStudentImg">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryStudentDetailById</result>
+		</action>
+		<action name="queryStudentBySinger" class="studentAction" method="queryStudent">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+				<interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentPersonal.jsp</result>
+		</action>
+		<action name="queryStudentDetailById" class="studentAction" method="queryStudentById">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+				<!-- <interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref>  -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/updateStudent.jsp</result>
+		</action>
+		<action name="queryStudentById" class="studentAction" method="queryStudentById">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentPersonal.jsp</result>
+		</action>
+		<action name="updateStudentSu" class="studentAction" method="updateStudentSu">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllStudent</result>
+		</action>
+		<action name="updateStudentPass" class="studentAction" method="updateStudentPass">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryStudentDetailById</result>
+		</action>
+		<action name="querySingleCourse" class="studentAction" method="querySingleCourse">
+		 <interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByMyCourse.jsp</result>
+		</action>
+		<action name="querySingleVideo" class="studentAction" method="querySingleVideo">
+		 <interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByMyVideo.jsp</result>
+		</action>
+		<action name="queryMyVideoByStu" class="studentAction" method="queryVideo">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByMyVideo.jsp</result>
+		</action>
+		<action name="queryMyCourseByStu" class="studentAction" method="queryCourse">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByMyCourse.jsp</result>
+		</action>
+		<action name="queryVideosByCid" class="studentAction" method="queryVideosByCid">
+			 <interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoListByCourse.jsp</result>
+		</action>
+		<action name="addCourse" class="studentAction" method="choiceCourse">
+			<result name="input">/file.jsp</result>
+			<result name="success" type="chain">queryVideosByCid</result>
+		</action>
+		<action name="queryStuIndex" class="studentAction" method="queryStuIndex">
+			<result name="input">/file.jsp</result>
+			<result name="success">/stuIndex.jsp</result>
+		</action>
+
+		<action name="userIndex" class="userinfoAction" method="userIndex">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+		
+			<result name="success">/userinfoIndex.jsp</result>
+		</action>
+		<action name="userLogin" class="userinfoAction" method="userLogin">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="guanliyuan">/adminIndex.jsp</result>
+			<result name="yonghu">/userinfoIndex.jsp</result>
+		</action>
+		<action name="queryAllUserinfo" class="userinfoAction" method="queryAllUserinfo">
+			<result name="input">/file.jsp</result>
+			<result name="success">/userinfoList.jsp</result>
+		</action>
+		<action name="queryUserinfo" class="userinfoAction" method="queryUserinfo">
+			<result name="input">/file.jsp</result>
+			<result name="success">/userinfoList.jsp</result>
+		</action>
+		<action name="querySingleTeacher" class="userinfoAction"
+			method="querySingleTeacher">
+			<result name="error">/file.jsp</result>
+			<result name="success">/teacherPersonal.jsp</result>
+		</action>
+		<action name="deleteUserinfo" class="userinfoAction" method="deleteUserinfo">
+			<result name="error">/error.jsp</result>
+			<result name="success" type="chain">queryAllUserinfo</result>
+		</action>
+		
+		<action name="addUserinfo" class="userinfoAction" method="execute">
+			<result name="success" type="chain">queryAllUserinfo</result>
+		</action>
+		<action name="queryUserinfoUpdate" class="userinfoAction"
+			method="queryUserinfoUpdate">
+			<result name="error">/error.jsp</result>
+			<result name="success">/updateUserinfo.jsp</result>
+		</action>
+		<action name="queryAllVideoByTid" class="userinfoAction"
+			method="queryAllVideoByTid">
+			<result name="error">/file.jsp</result>
+			<result name="success">/teacherByMyVideo.jsp</result>
+		</action>
+		<action name="updateImage" class="userinfoAction" method="updateImage">
+			<result name="error">/file.jsp</result>
+			<result name="success" type="chain">queryAllUserinfo</result>
+		</action>
+		<action name="updateImageByPersonal" class="userinfoAction" method="updateImage">
+			<result name="error">/file.jsp</result>
+			<result name="success" type="chain">querySingleTeacher</result>
+		</action>
+		<action name="updateUserinfo" class="userinfoAction" method="updateUserinfo">
+			<result name="error">/file.jsp</result>
+			<result name="success" type="chain">queryAllUserinfo</result>
+		</action>
+		<action name="updateUserinfoDetail" class="userinfoAction" method="updateUserinfo">
+			<result name="error">/file.jsp</result>
+			<result name="success" type="chain">querySingleTeacher</result>
+		</action>
+		<action name="updateUserPass" class="userinfoAction" method="updateUserPass">
+			<result name="error">/file.jsp</result>
+			<result name="success" type="chain">queryUserinfoUpdate</result>
+		</action>
+		
+		<action name="updateUserinfoPassword" class="userinfoAction" method="updateUserinfo">
+			<result name="error">/file.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="userEdit" class="userinfoAction" method="userEdit">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="initUploadVideo" class="userinfoAction" method="initUploadVideo">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/teacherUploadVideo.jsp</result>
+		</action>
+		<action name="insertVideo" class="userinfoAction" method="insertVideo">
+			<result name="input">/file.jsp</result>
+			<result name="success" type="chain">queryAllVideoByTid</result>
+		</action>
+
+		<action name="saveCourse" class="courseAction" method="saveCourse">
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllCourseByAdmi</result>
+		</action>
+		<action name="queryCourseByAdmi" class="courseAction" method="queryCourse">
+			<result name="input">/file.jsp</result>
+			<result name="success">/courseListByAdmi.jsp</result>
+		</action>
+		<action name="queryCourseByStu" class="courseAction" method="queryCourseByStu"> 
+		<!-- 学生全部课程里面的模糊查询 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByAllCourse.jsp</result>
+		</action>
+	<!-- 	<action name="queryCourseByAdmi" class="courseAction" method="queryCourse">
+		我的课程里面的模糊查询
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByMyCourse.jsp</result>
+		</action> -->
+		<action name="queryStuAllCourse" class="courseAction" method="queryAllCourse">
+		<!--学生里查询全部课程  -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByAllCourse.jsp</result>
+		</action>
+		<action name="queryTeaAllCourse" class="courseAction" method="queryAllCourse">
+		<!--教师里查询全部课程  -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/teacherByAllCourse.jsp</result>
+		</action>
+		<action name="queryCourseByTea" class="courseAction" method="queryCourseByStu"> 
+		<!-- 教师全部课程里面的模糊查询 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/teacherByAllCourse.jsp</result>
+		</action>
+		<action name="queryAllCourseByAdmi" class="courseAction" method="queryAllCourseByAdmi">
+			<result name="input">/file.jsp</result>
+			<result name="success">/courseListByAdmi.jsp</result>
+		</action>
+		<action name="queryCourseDetailByTea" class="courseAction" method="queryCourseById">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/courseDetailByTea.jsp</result>
+		</action>
+		<action name="queryCourseById" class="courseAction" method="queryCourseById">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/alertCourse.jsp</result>
+		</action>
+		<action name="alertCourse" class="courseAction" method="alertCourse">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllCourseByAdmi</result>
+		</action>
+		<action name="alertCourseImg" class="courseAction" method="alertCourseImg">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryCourseById</result>
+		</action>
+		<action name="deleteCourse" class="courseAction" method="updateCourseStatu">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllCourseByAdmi</result>
+		</action>
+		<action name="alertCourseStatu" class="courseAction" method="alertCourseStatu">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllCourseByAdmi</result>
+		</action>
+
+		<action name="queryAllVideoByStu" class="videoAction" method="queryAllVideoByStu">
+			<!--学生查询全部视频 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByAllVideo.jsp</result>
+		</action>
+		<action name="queryVideoUpdateStatu" class="videoAction" method="alertVideoStatu">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryAllVideo</result>
+		</action>
+		<action name="queryVideoByStu" class="videoAction" method="queryVideoByStu">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByAllVideo.jsp</result>
+		</action>
+		<action name="queryAllVideo" class="videoAction" method="queryAllVideo">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoList.jsp</result>
+		</action>
+		<!-- <action name="queryStuAllVideo" class="videoAction" method="queryAllVideo">
+			配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用
+			<result name="input">/file.jsp</result>
+			<result name="success">/studentByAllVideo.jsp</result>
+		</action> -->
+		<action name="updateVideoSelectionTime" class="videoAction" method="updateVideoSelectionTime">
+            <result name="ajax" type="json">
+                <param name="root">isEnd</param>
+            </result>
+        </action>
+		<action name="deleteVideoByTea" class="videoAction" method="deleteVideo">
+         <result name="input">/file.jsp</result>
+			<result name="success"  type="redirectAction">queryAllVideoByTid</result>
+        </action>
+		
+		<action name="queryVideoDetailByStu" class="videoAction" method="queryVideoDetail">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">addVideoSelection</result>
+		</action>
+		<action name="queryVideoDetailByTea" class="videoAction" method="queryVideoDetail">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<interceptor-ref name="loginInterceptor"></interceptor-ref> 
+			<interceptor-ref name="defaultStack"></interceptor-ref> 
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryCommentByVideoByTea</result>
+		</action>
+		<action name="addVideoSelection" class="videoAction" method="addvideoSelection">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="redirectAction">queryCommentByVideoByStu</result>
+		</action>
+		
+		<action name="queryCommentByVideoByStu" class="commentAction" method="queryCommentByVideo">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoDetailByStu.jsp</result>
+		</action>
+		<action name="queryCommentByVideoByTea" class="commentAction" method="queryCommentByVideo">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoDetailByTea.jsp</result>
+		</action>
+		<action name="addCommentByStu" class="commentAction" method="addComment">
+			<!-- 配置input返回值及对应的返回页面，input为默认返回值，不用显式声明，该值只在验证失败时调用 -->
+			<result name="input">/file.jsp</result>
+			<result name="success" type="chain">queryVideoDetailByStu</result>
+		</action>
+<!-- 管理员统计功能 -->
+        <action name="queryCourseAndNumber" class="userinfoAction" method="queryCourseSelection">
+			<result name="input">/file.jsp</result>
+			<result name="success">/courseNumber.jsp</result>
+		</action>
+		<action name="queryVideoAndNumber" class="courseAction" method="queryAllCourseByAdmi">
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoNumber.jsp</result>
+		</action>
+		<action name="queryVideoess" class="videoAction" method="queryVideoByCid">
+			<result name="input">/file.jsp</result>
+			<result name="success">/videoNumbers.jsp</result>
+		</action>
+		<action name="queryTeacherCourseNumber" class="courseAction" method="queryUserinfo">
+			<result name="input">/file.jsp</result>
+			<result name="success">/showTeachers.jsp</result>
+		</action>
+		<action name="queryVideoes" class="courseAction" method="queryVideoByUid">
+			<result name="input">/file.jsp</result>
+			<result name="success">/teacherCoursrNumber.jsp</result>
+		</action>
+		<action name="queryTeacherCourseVideos" class="videoAction" method="queryTeacherCourseVideos">
+			<result name="input">/file.jsp</result>
+			<result name="success">/teacherCourseVideos.jsp</result>
+		</action>
+		
+	</package>
+</struts>

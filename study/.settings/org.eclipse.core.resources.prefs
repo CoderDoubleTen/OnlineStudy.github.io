@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+encoding//src/com/ssh/action/CourseAction.java=UTF-8
+encoding//src/com/ssh/action/UserinfoAction.java=UTF-8
+encoding//src/com/ssh/action/VideoAction.java=UTF-8
+encoding//src/com/ssh/dao/CourseDao.java=UTF-8
+encoding//src/com/ssh/dao/UserinfoDao.java=UTF-8
+encoding//src/com/ssh/dao/VideoDao.java=UTF-8
+encoding//src/com/ssh/dao/VideoSelectionDao.java=UTF-8
+encoding//src/com/ssh/dao/ifc/IUserinfoDao.java=UTF-8
+encoding//src/com/ssh/dao/ifc/IVideoDao.java=UTF-8
+encoding//src/com/ssh/service/UserinfoService.java=UTF-8
+encoding//src/com/ssh/service/VideoService.java=UTF-8
+encoding//src/com/ssh/service/ifc/IUserinfoService.java=UTF-8
+encoding//src/com/ssh/service/ifc/IVideoService.java=UTF-8

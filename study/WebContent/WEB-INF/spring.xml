@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	      http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	      http://www.directwebremoting.org/schema/spring-dwr 
+	      http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+	      http://www.springframework.org/schema/aop 
+	      http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/tx 
+          http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		scope="singleton">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+	
+	<!--第一步，配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!--第二步，配置事务属性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- name=*代表所有方法都使用事务管理 -->
+			<tx:method name="*" />
+			<!--也可以指定具体的方法名开头的事务 -->
+			<!-- <tx:method name="delete*" /> <tx:method name="update*" /> <tx:method 
+				name="insert*" /> -->
+		</tx:attributes>
+	</tx:advice>
+	<!--第三步，配置AOP切点，告诉spring在什么位置用哪一个事务管理器进行事务管理 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.ssh.dao.*.*(..))"
+			id="txPointcut" />
+		<!--引用事务管理器和切点 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
+	<!-- baseDao配置 -->
+	<bean id="baseDao" class="com.ssh.dao.BaseDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- dao层实现类配置 -->
+	<!-- 相当于UserDao userDao=new UserDao(); -->
+	<bean id="studentDao" class="com.ssh.dao.StudentDao" parent="baseDao" />
+	<bean id="userinfoDao" class="com.ssh.dao.UserinfoDao" parent="baseDao" />
+	<bean id="courseDao" class="com.ssh.dao.CourseDao" parent="baseDao" />
+	<bean id="courseSelectionDao" class="com.ssh.dao.CourseSelectionDao" parent="baseDao" />
+	<bean id="videoDao" class="com.ssh.dao.VideoDao" parent="baseDao" />
+	<bean id="videoSelectionDao" class="com.ssh.dao.VideoSelectionDao" parent="baseDao" />
+	<bean id="commentDao" class="com.ssh.dao.CommentDao" parent="baseDao" />
+
+	<!-- service层实现类配置 -->
+	<bean id="studentService" class="com.ssh.service.StudentService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="studentDao" ref="studentDao"></property>
+	</bean>
+	<bean id="userinfoService" class="com.ssh.service.UserinfoService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="userinfoDao" ref="userinfoDao"></property>
+	</bean>
+	<bean id="videoService" class="com.ssh.service.VideoService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="videoDao" ref="videoDao"></property>
+	</bean>
+	<bean id="videoSelectionService" class="com.ssh.service.VideoSelectionService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="videoSelectionDao" ref="videoSelectionDao"></property>
+	</bean>
+	<bean id="courseService" class="com.ssh.service.CourseService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="courseDao" ref="courseDao"></property>
+	</bean>
+	<bean id="courseSelectionService" class="com.ssh.service.CourseSelectionService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="courseSelectionDao" ref="courseSelectionDao"></property>
+	</bean>
+	<bean id="commentService" class="com.ssh.service.CommentService">
+		<!-- ref和dao层配置的id相同，name和userService里面接口IUserDao接口名相同 -->
+		<property name="commentDao" ref="commentDao"></property>
+	</bean>
+
+
+
+	<!-- action层实现类配置 -->
+	<bean id="studentAction" class="com.ssh.action.StudentAction">
+		<!-- ref和service层配置的id相同，name和userAction里面接口IUserDao接口名相同 -->
+		<property name="studentService" ref="studentService"></property>
+		<property name="courseService" ref="courseService"></property>
+		<property name="videoService" ref="videoService"></property>
+		<property name="courseSelectionService" ref="courseSelectionService"></property>
+		<property name="videoSelectionService" ref="videoSelectionService"></property>
+	</bean>
+	<bean id="userinfoAction" class="com.ssh.action.UserinfoAction">
+		<!-- ref和service层配置的id相同，name和userAction里面接口IUserDao接口名相同 -->
+		<property name="userinfoService" ref="userinfoService"></property>
+		<property name="courseService" ref="courseService"></property>
+		<property name="videoService" ref="videoService"></property>
+	</bean>
+	<bean id="courseAction" class="com.ssh.action.CourseAction">
+		<!-- ref和service层配置的id相同，name和userAction里面接口IUserDao接口名相同 -->
+		<property name="courseService" ref="courseService"></property>
+		<property name="userinfoService" ref="userinfoService"></property>
+	</bean>
+	<bean id="videoAction" class="com.ssh.action.VideoAction">
+		<!-- ref和service层配置的id相同，name和userAction里面接口IUserDao接口名相同 -->
+		<property name="videoService" ref="videoService"></property>
+		<property name="courseService" ref="courseService"></property>
+		<property name="videoSelectionService" ref="videoSelectionService"></property>
+		<property name="userinfoService" ref="userinfoService"></property>
+	</bean>
+	<bean id="commentAction" class="com.ssh.action.CommentAction">
+		<!-- ref和service层配置的id相同，name和userAction里面接口IUserDao接口名相同 -->
+		<property name="commentService" ref="commentService"></property>
+	</bean>
+	
+	
+</beans>

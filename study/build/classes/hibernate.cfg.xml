@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 配置数据库方言 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- 配置数据库连接路径，characterEncoding保证数据库能识别中文 -->
+<!-- 		<property name="connection.url">jdbc:mysql://10.254.1.13:3306/team6?characterEncoding=utf-8</property>
+ -->		<property name="connection.url">jdbc:mysql://localhost:3306/study?characterEncoding=utf-8</property>
+		<!-- 配置数据库驱动 -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<!-- 配置数据库用户名 -->
+<!-- 		<property name="connection.username">team6</property>
+ -->		<property name="connection.username">root</property>
+		<!-- 配置数据库密码 -->
+		<property name="connection.password">root</property>
+	<!-- 	<property name="connection.password">123456</property> -->
+		<!-- 是否显示sql语句 -->
+		<property name="show_sql">true</property>
+		<!-- 是否格式化sql语句 -->
+		<property name="format_sql">true</property>
+		<!-- 配置hbm文件位置 -->
+
+	    <mapping class="com.ssh.bean.Student"/>
+		<mapping class="com.ssh.bean.Course"/>
+		<mapping class="com.ssh.bean.Userinfo"/>
+		<mapping class="com.ssh.bean.CourseSelection"/>
+		<mapping class="com.ssh.bean.UserPassword"/>
+		<mapping class="com.ssh.bean.StudentPassword"/>
+        <mapping class="com.ssh.bean.Video"/>
+        <mapping class="com.ssh.bean.VideoSelection"/>
+        <mapping class="com.ssh.bean.Comment"/>
+        <mapping class="com.ssh.bean.User_Course"/>
+
+	</session-factory>
+</hibernate-configuration>
